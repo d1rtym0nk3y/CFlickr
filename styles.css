@@ -1,0 +1,25 @@
+body, h1, h2, h3, h4, h5 {
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+}
+
+h1 {
+	border-bottom: 2px solid #CC0000;
+}
+
+h3 {
+	border-bottom: 1px solid #AAAAAA;
+}
+
+body {
+	width: 750px;
+	background: #EEEEEE;
+}
+
+.code {
+	font-family: Courier, mono;
+	font-size: 12px;
+	background: #FFFFFF;
+	border: 1px solid #AAAAAA;
+	padding: 5px;
+	line-height:130%;
+}

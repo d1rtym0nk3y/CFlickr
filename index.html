@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>CFlickr 2</title>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<h1>CFlickr 2 - Coldfusion Flickr API Kit </h1>
+<h3>Introduction</h3>
+<p>CFlickr version 2 does away with the numerous cfcs used inthe original version and the one-to-one mapping of methods in the interfaces. Instead version 2 now uses onMissingMethod to dynamically call methods of Flickrs API and receives a response in JSON format which is then deserialized and returned directly.</p>
+<p>This simple approach has a few advantages and disadvantages</p>
+<p><strong>Pros</strong></p>
+<ul>
+  <li>Extremely lightweight, no longer need to instantiate multiple cfc's to represent a api response</li>
+  <li>Very easy to work with returned data, everything is represented as Coldfusion Structs, Arrays and Strings.</li>
+  <li>CFlickr.cfc can now be placed anywhere in your application, no more need for mappings or installation in the webroot</li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul>
+  <li>CF8+ required for onMissingMethod support</li>
+  <li>You must always used named arguments to your method calls, for exmaple cflickr.auth_getToken(frob='1234')</li>
+</ul>
+<h3>Installation</h3>
+<p>Place the CFlickr.cfc anywhere you want</p>
+<h3>Documentation</h3>
+<p>CFC  Documentation available <a href="docs/" target="_blank">here</a></p>
+<p>CFlickr can call any method of the <a href="http://www.flickr.com/services/api/">Flickr API</a>, it uses onMissingMethod internally to convert the method name you supply into the correct format. Simply drop &quot;flickr&quot; from the method name and convert the periods to underscores.</p>
+<p>For example to call <a href="http://www.flickr.com/services/api/flickr.photos.search.html">flickr.photos.search</a> you would call the method <em>photos_search()</em> on the cflickr object. </p>
+<h3>Example Usage </h3>
+<div class="code">
+  <pre>
+&lt;cfscript&gt;
+apikey = &quot;3eaabc8a5b60e6dc9fcf91fe4ccd6b8f&quot;;
+secret = &quot;c4817e8ac6085693&quot;;
+cflickr = createobject(&quot;component&quot;, &quot;cfc.CFlickr&quot;).init(apikey, secret);
+resp = cflickr.photos_getRecent(per_page=25, page=1);
+&lt;/cfscript&gt;
+
+&lt;h3&gt;Recent Public Photos&lt;h3&gt;
+&lt;div style=&quot;width:400px;&quot;&gt;
+	&lt;cfloop from=&quot;1&quot; to=&quot;#arraylen(resp.photos.photo)#&quot; index=&quot;i&quot;&gt;
+		&lt;cfset p = resp.photos.photo[i] /&gt;
+		&lt;cfoutput&gt;
+			&lt;a href=&quot;http://flickr.com/photo.gne?id=#p.id#&quot;&gt;
+				&lt;img src=&quot;#cflickr.getPhotoUrl(p, 's')#&quot; /&gt;
+			&lt;/a&gt;
+		&lt;/cfoutput&gt;
+	&lt;/cfloop&gt;
+&lt;div&gt;</pre>  
+</div>
+<p>&nbsp;</p>
+</body>
+</html>
